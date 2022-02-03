@@ -1,14 +1,16 @@
 import edu.princeton.cs.algs4.QuickFindUF;
+import edu.princeton.cs.algs4.QuickUnionUF;
 import edu.princeton.cs.algs4.StdRandom;
+import edu.princeton.cs.algs4.WeightedQuickUnionUF;
 import org.junit.Test;
 import static org.junit.Assert.*;
 
-public class UnionFindTest {
+public class WeightedQuickUnionUFCustomTest {
     @Test
     public void RandomizedTest() {
         int size = 100;
-        QuickFindUFCustom myUF = new QuickFindUFCustom(size);
-        QuickFindUF correctUF = new QuickFindUF(size);
+        UF myUF = new WeightedQuickUnionUFCustom(size);
+        WeightedQuickUnionUF correctUF = new WeightedQuickUnionUF(size);
 
         int repeat = 100000;
         while (repeat-- > 0) {

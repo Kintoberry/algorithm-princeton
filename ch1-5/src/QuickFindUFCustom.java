@@ -3,10 +3,10 @@ My own implementation of QuickFindUF (the most basic implementation in the text)
 Author: Kinto
  */
 
-public class UnionFind implements UF{
+public class QuickFindUFCustom implements UF{
     private int[] id;
     private int count;
-    public UnionFind(int N) {
+    public QuickFindUFCustom(int N) {
         count = N;
         id = new int[N];
         for (int i = 0; i < N; i++) {
