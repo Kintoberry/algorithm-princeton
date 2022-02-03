@@ -1,0 +1,88 @@
+1.5.1 Show the contents of the id[] array and the number of times the array is accessed for each
+input pair when you use quick-find for the sequence 9-0 3-4 5-8 7-2 2-1 5-7 0-3 4-2.
+
+// My solution:
+I'll assume that the id array size is 10 since the problem description doesn't specify this.
+
+QuickFind's find() and union() methods look like the following:
+public int find(int p) {
+    return id[p];
+}
+
+public void union(int p, int q) { // Put p and q into the same component.
+    int pID = find(p);
+    int qID = find(q);
+    // Nothing to do if p and q are already
+    in the same component.
+    if (pID == qID) return;
+    // Rename p’s component to q’s name.
+    for (int i = 0; i < id.length; i++)
+    if (id[i] == pID) id[i] = qID;
+    count--;
+}
+Note: Regarding the array access, the following calls are constants.
+2 access for 2 called for find() methods
+10 access for the loop
+Thus, 12 access are constantly applied in every array access calculation below.
+Arrays access numbers change only when if statement in the loop in true.
+So we cound this number only, and then just add 12 to that.
+
+index:0  1  2  3  4  5  6  7  8  9
+id = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9]
+delta:x  x  x  x  x  x  x  x  x  x
+
+<9-0>
+index:0  1  2  3  4  5  6  7  8  9
+id = [0, 1, 2, 3, 4, 5, 6, 7, 8, 0]
+delta:x  x  x  x  x  x  x  x  x  o
+
+Array access: 12 + 1 for matching pID in the if statement =  total 13 accesses
+
+<3-4>
+index:0  1  2  3  4  5  6  7  8  9
+id = [0, 1, 2, 4, 4, 5, 6, 7, 8, 0]
+delta:x  x  x  o  x  x  x  x  x  x
+Array access: 12 + 1 for matching pID in the if statement = total 13 accesses
+
+<5-8>
+index:0  1  2  3  4  5  6  7  8  9
+id = [0, 1, 2, 4, 4, 8, 6, 7, 8, 0]
+delta:x  x  x  x  x  o  x  x  x  x
+Array access: 12 + 1 for matching pID in the if statement = total 13 accesses
+
+
+
+<7-2>
+index:0  1  2  3  4  5  6  7  8  9
+id = [0, 1, 2, 4, 4, 8, 6, 2, 8, 0]
+delta:x  x  x  x  x  x  x  o  x  x
+Array access: 12 + 1 for matching pID in the if statement = total 13 accesses
+
+
+<2-1>
+index:0  1  2  3  4  5  6  7  8  9
+id = [0, 1, 1, 4, 4, 8, 6, 1, 8, 0]
+delta:x  x  o  x  x  x  x  o  x  x
+Array access: 12 + 2 for matching pID in the if statement = total 14 accesses
+
+
+<5-7>
+index:0  1  2  3  4  5  6  7  8  9
+id = [0, 1, 1, 4, 4, 1, 6, 1, 1, 0]
+delta:x  x  x  x  x  o  x  x  o  x
+Array access: 12 + 2 for matching pID in the if statement = total 14 accesses
+
+
+<0-3>
+index:0  1  2  3  4  5  6  7  8  9
+id = [4, 1, 1, 4, 4, 1, 6, 1, 1, 4]
+delta:o  x  x  x  x  x  x  x  x  o
+Array access: 12 + 2 for matching pID in the if statement = total 14 accesses
+
+
+<4-2>
+index:0  1  2  3  4  5  6  7  8  9
+id = [1, 1, 1, 1, 1, 1, 6, 1, 1, 1]
+delta:o  x  x  o  o  x  x  x  x  o
+Array access: 12 + 4 for matching pID in the if statement = total 16 accesses
+
