@@ -1,0 +1,345 @@
+From: <Saved by Blink>
+Snapshot-Content-Location: https://www.cs.princeton.edu/courses/archive/fall21/cos226/lectures/study/14AnalysisOfAlgorithms.html
+Subject: Analysis of Algorithms Study Guide
+Date: Sat, 5 Feb 2022 08:16:37 -0000
+MIME-Version: 1.0
+Content-Type: multipart/related;
+	type="text/html";
+	boundary="----MultipartBoundary--4aQpPj7irnMH6bSHtBfKsep9bxvNpmzv4h0E9mQU1K----"
+
+
+------MultipartBoundary--4aQpPj7irnMH6bSHtBfKsep9bxvNpmzv4h0E9mQU1K----
+Content-Type: text/html
+Content-ID: <frame-3C2CE970B79A9E8290784BB982A8DE1F@mhtml.blink>
+Content-Transfer-Encoding: quoted-printable
+Content-Location: https://www.cs.princeton.edu/courses/archive/fall21/cos226/lectures/study/14AnalysisOfAlgorithms.html
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 3.2 Final//EN"><html><head><meta ht=
+tp-equiv=3D"Content-Type" content=3D"text/html; charset=3DUTF-8">
+ =20
+
+ =20
+<link rel=3D"stylesheet" href=3D"https://www.cs.princeton.edu/courses/archi=
+ve/fall21/cos226/cos226.css" type=3D"text/css">
+
+
+<title>Analysis of Algorithms Study Guide</title>
+<meta name=3D"AUTHOR" content=3D"Josh Hug, Maia Ginsburg">
+<meta name=3D"KEYWORDS" content=3D"data structures,algorithms,Sedgewick,Way=
+ne,Algorithms in Java,Princeton,sorting,quicksort,heap,red black,trie,prior=
+ity queue,graph,DFS,analysis">=20
+<meta name=3D"DESCRIPTION" content=3D"Princeton COS 226: Data Structures an=
+d Algorithms">=20
+<meta name=3D"ROBOTS" content=3D"INDEX,FOLLOW">
+
+</head>
+
+
+<body><h3>ANALYSIS OF ALGORITHMS STUDY GUIDE</h3>
+
+
+<br>
+
+<p><b>Empirical analysis</b>.
+If the running time of our program (approximately) obeys a <em>power law</e=
+m> T(n) ~ an<sup>b</sup>,
+we can use a <em>doubling hypothesis</em> to estimate the coefficients a an=
+d b.
+
+</p><p><b>Tilde notation</b>.
+We say that f(n) ~ g(n) if f(n)/g(n) converges to 1 as n gets large.
+This is a general concept about mathematical functions
+and is not restricted to running time, memory, or any other specific domain=
+.
+
+</p><p><b>Cost model</b>.
+For theoretical analyses of running time in COS 226, we will assume a <em>c=
+ost model</em>,
+namely that some particular operation (or operations) dominates the running=
+ time of a program.
+Then, we express the running time in terms of the total number of that oper=
+ation
+as a function of the input size.
+To simplify things, we usually give this frequency count in tilde notation.
+
+</p><p><b>Order of growth</b>.
+If we have two functions f(n) and g(n), and f(n) ~ c g(n) for some constant=
+ c &gt; 0,
+we say the <em>order of growth</em> of f(n) is g(n).
+Typically g(n) is one of the following functions:=20
+1, log n, n, n log n, n<sup>2</sup>, n<sup>3</sup>, or 2<sup>n</sup>.
+
+<!--
+<p><b>Performance depends on inputs</b>.
+We can characterize an algorithm's performance by its best case, worst case=
+, and average=20
+case.
+
+<p><b>Difficulty of a problem</b>.
+To understand the difficulty of a particular problem in COS 226, we often c=
+onsider the=20
+worst-case order-of-growth of the best possible algorithm for the problem.
+We can upper bound the difficulty of a problem by the performance
+of the best-known algorithm. Finding a good lower bound for a problem is
+usually a difficult challenge.
+
+<p><b>Big Oh, Big Omega, Big Theta</b>.
+These notations are commonly used in the theory of algorithms. They are sim=
+ilar
+in spirit to Tilde notation, but throw away leading constants.
+Many programmers use Big-Oh notation incorrectly when they really mean
+order of growth.
+-->
+
+</p><p><b>Worst-case order of growth isn't everything</b>.
+Just because one algorithm has a better order of growth than other does not
+mean that it is faster in practice. We will encounter some notable countere=
+xamples,
+including quicksort vs. mergesort.
+
+</p><p><b>Memory analysis</b>.=20
+Know how to calculate the memory utilization of a class with the 64-bit mem=
+ory model
+from the textbook.
+
+</p><p><b>Theoretical and empirical analysis</b>.
+Hypotheses generated through theoretical analysis (or guesswork like our po=
+wer law=20
+assumption) should be validated with data before being fully trusted.
+
+</p><h3>Recommended Problems</h3>
+
+<h4>C level</h4>
+<ol><li>Textbook 1.4.4</li>
+<li><a href=3D"http://www.cs.princeton.edu/courses/archive/fall17/cos226/ex=
+ams/mid-f11.pdf#page=3D3">Fall 2011 Midterm, #2</a></li>
+</ol>
+
+<h4>B level</h4>
+<ol><li>Textbook 1.4.5</li>
+<li><a href=3D"http://www.cs.princeton.edu/courses/archive/fall17/cos226/ex=
+ams/mid-s12.pdf#page=3D2">Spring 2012 Midterm, #1</a></li>
+  <li><!---from: Spring 2013 Final, #4---->
+    For each of the functions shown, give the best order of
+    growth of the running time.
+    <pre> public static int f1 (int n) {
+     int x =3D 0;
+     for (int i =3D 0; i &lt; n; i++)
+         x++;
+     return x;
+ }
+
+ public static int f2(int n) {
+     int x =3D 0;
+     for (int i =3D 0; i &lt; n; i++)
+         for (int j =3D 0; j &lt; i*i; j++)
+             x++;
+         return x;
+  }
+
+ public static int f3 (int n) {
+     if (n &lt;=3D 1) return 1;
+     return f3(n-1) + f3(n-1)
+ }
+
+ public static int f4 (int n) {
+     if (n &lt;=3D 1) return 1;
+     return f4(n/2) + f4(n/2);
+ }
+
+ public static int f5 (int n) {
+     if (n &lt;=3D 1) return 1;
+     return f1(n) + f5(n/2) + f5(n/2);
+ }
+
+<!--
+ public static void f6(int n) {
+     // 1&lt;&lt;i is the same as 2^i.
+     int x =3D 0;
+     for (int i =3D 0; i &lt; n; i =3D 1 &lt;&lt; i)
+         x++;
+ }
+-->
+
+<a id=3D"Ans-link"><b>
+ Answers</b></a>
+<div id=3D"Ans" style=3D"display:none;">
+<ul>
+<li>    f1 is Linear.
+</li><li>    f2 is N^3 because each iteration of the inner loop is
+    quadratic in the outer loop variable.
+    The simplest way to do this is to realize it is just the integration of=
+ i^2.
+</li><li>    f3 is 2^N. Each iteration spawns two iterations. Thus by the t=
+ime we get to the bottom=20
+level(where n=3D1), we've produced 2! total calls of 3.
+</li><li>    f4 is linear. This is similar to the pattern that we saw in Me=
+rgesort and Quicksort,=20
+except that each recursive call does only a constant amount of work instead=
+ of a linear amount.=20
+It is the same as the pattern for bottom up heapification. At the top level=
+,we do 1 unit of
+    work; at the 2nd level,we do 2 units of work; at the 3rd level, we do 4=
+ units, etc. The total
+    amount of work is thus given by 1 + 2 + 4 + 8 + ? + ?. This sum is line=
+ar in N.
+</li><li>    f5 is N log N. This is the exact same pattern as Mergesort and=
+ Quicksort. If you want to think=20
+of it as a sum, then it's N + N + N + ...N, which are log(base 2)N  summand=
+s.
+<!--
+<li>    f6 is log* N. After the first iteration, i =3D 2. After the second =
+iteration, i =3D 2^2. After the third iteration, i =3D 2^2^2, etc.
+    This takes Log*N steps to reach N. If you weren't totally sure, you cou=
+ld have also
+    observed that Log*N was the only answer between constant and LogN.
+-->
+</li></ul>
+</div>
+  </pre></li>
+  <li>
+<a name=3D"anal15">
+    <!-----below is from:    Fall 2015 Midterm, #7a and #7b----->
+</a>
+    Consider the following three algorithms:
+<ol type=3D"1">
+<li> Algorithm 1 solves problems of size N by recursively dividing them int=
+o 2 sub-problems of size N/2
+    and combining the results in time c (where c is some constant).
+</li><li> Algorithm 2 solves problems of size N by solving one sub-problem =
+of size N/2 and peforming some processing taking some constant time c.
+</li><li> Algorithm 3 solves problems of size N by solving two sub-problems=
+ of size N/2 and performing a linear amount (i.e., cN where c is some const=
+ant) of extra work.
+</li></ol>
+(a) For each algorithm, write down a recurrence relation showing how T(N), =
+the running time on an instance of size N, depends on the running time of a=
+ smaller instance.
+<br>
+<p><a id=3D"Ans-link"><b>
+ Answers</b></a>
+</p><div id=3D"Ans2" style=3D"display:none;">
+<pre>  Algorithm 1: T(N) =3D 2T(N/2) +c
+  Algorithm 2: T(N) =3D T(N/2) +c
+  Algorithm 3: T(N) =3D 2T(N/2) +cN
+</pre></div>
+(b) For each recurrence relation, what is the running time for each T(N) (u=
+se tilde notation)?
+<p><a id=3D"Ans-link"><b>
+ Answers</b></a>
+</p><div id=3D"Ans3" style=3D"display:none;">
+<pre>  Algorithm 1: c N
+  Algorithm 2: c log N
+  Algorithm 3: c N log N
+</pre></div>
+  </li>
+  <li> Suppose we wanted to simulate percolation in a cube with N sites on =
+a side, with each site connected to
+    its neighbors up, down, left, right, forward, and back. If we used Weig=
+htedQuickUnionUF, what would be
+    the order of growth of the expected running time, as a function of N?
+<p><a id=3D"Ans-link"><b>
+ Answers</b></a>
+</p><div id=3D"Ans4" style=3D"display:none;">
+<pre>  d. N<sup>3</sup> log N
+</pre></div>
+    <!----   Above is from Fall 2015 Midterm, #8a (union-find analysis)----=
+>
+  </li>
+</ol>
+
+<h4>A level</h4>
+<ol>
+  <li>The code below operates on bacterial genomes of
+    approximately 1 megabyte in size.
+<pre>    int N =3D Integer.parseInt(args[0]);
+    String[] genomes =3D new String[N];
+    for (int i =3D 0; i &lt; N; i++) {
+        In gfile =3D new In("genomeFile" + i + ".txt");
+        genomes[i] =3D gfile.readString();
+    }
+    for (int i =3D 1; i &lt; N; i++) {
+        for (int j =3D i; j &gt; 0; j--) {
+            if (genomes[j-1].length() &gt; genomes[j].length())
+                exch(genomes, j-1, j);
+            else break;
+        }
+    }
+</pre>
+<ol>
+<li> What is the theoretical order of growth of the worst case running time=
+ as a function
+  of N?
+  </li><li>A table of runtimes for the program above is given below. Approx=
+imate the empirical
+      run time in tilde notation as a function of N. Do not leave your answ=
+er in terms of
+    logarithms.
+    <pre>      N Time (s)
+      1 0.15
+      2 0.14
+      4 0.19
+      8 0.41
+      16 0.85
+      32 1.66
+      64 3.38
+      </pre>
+</li><li> Explain any discrepancy between your answers to (a) and (b). Be a=
+s specific and
+      detailed as possible.
+  <!----From Spring 2013 Midterm, #1---></li>
+</ol>
+<p><a id=3D"Ans-link"><b>
+ Answers</b></a>
+</p><div id=3D"Ans5" style=3D"display:none;">
+<ol>
+
+<li> N<sup>2</sup>. Reading in the genomes is linear time. The for loops ar=
+e just
+insertion sort, which is N<sup>2</sup> in the worst-case (where the break
+statement never occurs).
+</li><li> 0.05N (ok if left in terms of a fraction)
+</li><li> Multiple acceptable answers:
+<ol><li> The input may not be a worstcase input (e.g. already sorted)
+</li><li> The time to read in a 64 megabytes of genomes is much larger
+than the time to perform 64<sup>2</sup> string length compares and
+64<sup>2</sup> swaps of 8 byte references.
+</li><li> Partial credit: N is too small / time is too short
+  </li></ol>
+</li></ol></div>
+<p>
+
+
+<!--
+<li>Suppose the optimal (and possibly unknown) solution to problem P has or=
+der of growth F(N). Suppose that the best known solution has runtime that i=
+s =CE=98(B(N)). Finally, suppose that there is a clever proof that no solut=
+ion can possibly have order of growth that is less than L(N). Which of the =
+following can you surmise?
+
+<ol><li>F(N) =3D O(B(N))
+<li>B(N) =3D O(F(N))
+<li>The limit of F(N)/B(N) as N goes to infinity cannot be infinity.
+<li>F(N) =3D =CE=A9(L(N))
+<li>L(N) =3D =CE=A9(F(N))
+<li>B(N) > F(N) for sufficiently large N.
+</ol>
+-->
+
+</p></li></ol>
+
+
+
+
+
+
+
+</body></html>
+------MultipartBoundary--4aQpPj7irnMH6bSHtBfKsep9bxvNpmzv4h0E9mQU1K----
+Content-Type: text/css
+Content-Transfer-Encoding: quoted-printable
+Content-Location: https://www.cs.princeton.edu/courses/archive/fall21/cos226/cos226.css
+
+@charset "utf-8";
+=0A
+------MultipartBoundary--4aQpPj7irnMH6bSHtBfKsep9bxvNpmzv4h0E9mQU1K------

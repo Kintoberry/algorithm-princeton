@@ -1,3 +1,6 @@
+/**
+ * Helper class for interview question 1
+ */
 package InterviewQuestions;
 
 import java.sql.Timestamp;
