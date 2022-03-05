@@ -4,7 +4,7 @@ public class Percolation {
     WeightedQuickUnionUF UF;
     boolean[][] openClosedGrid;
     int numberOfOpenSites;
-    int N, UFlength;
+    int N, UFlength; // N is the width of the grid n x n. Thus, N equals n.
     int northEndPoint, southEndPoint;
     Converter indexConverter;
 
@@ -23,6 +23,19 @@ public class Percolation {
         N = n;
         UFlength = n * n;
         indexConverter = new Converter(N);
+        connectNorthEndPointToFirstRow();
+        connectSouthEndPointToLastRow();
+    }
+
+    private void connectNorthEndPointToFirstRow() {
+        for (int siteIndex = 1; siteIndex <= N; siteIndex++) {
+            UF.union(northEndPoint, siteIndex);
+        }
+    }
+    private void connectSouthEndPointToLastRow() {
+        for (int i = 0; i < N; i++) {
+            UF.union(UFlength-i, southEndPoint);
+        }
     }
 
     // opens the site (row, col) if it is not open already
