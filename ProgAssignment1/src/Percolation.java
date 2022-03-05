@@ -2,41 +2,71 @@ import edu.princeton.cs.algs4.WeightedQuickUnionUF;
 
 public class Percolation {
     WeightedQuickUnionUF UF;
-    boolean[][] openClosedMap;
+    boolean[][] openClosedGrid;
     int numberOfOpenSites;
-    int N;
+    int N, UFlength;
+    int northEndPoint, southEndPoint;
+    Converter indexConverter;
 
     // creates n-by-n grid, with all sites initially blocked
     public Percolation(int n) {
         if (n <= 0) {
             throw new IllegalArgumentException();
         }
-
-        UF = new WeightedQuickUnionUF(n * n);
-        openClosedMap = new boolean[n][n];
+        // from 1 to n*n are valid sites; index 0 and n*n + 1 are north and south end points, respectively.
+        UF = new WeightedQuickUnionUF(n * n + 2);
+        northEndPoint = 0;
+        southEndPoint = n * n + 1;
+        // create (n+1)*(n+1) grid to match the fact that col and row indexes starts with 1, not 0.
+        openClosedGrid = new boolean[n+1][n+1];
         numberOfOpenSites = 0;
         N = n;
+        UFlength = n * n;
+        indexConverter = new Converter(N);
     }
 
     // opens the site (row, col) if it is not open already
     public void open(int row, int col) {
         checkInput(row, col);
-        openClosedMap[row-1][col-1] = true;
+        if (openClosedGrid[row][col]) {
+            return;
+        }
+        openClosedGrid[row][col] = true;
         numberOfOpenSites++;
-        UF.
+        connectWithSurroundingSites(row, col);
+    }
+
+    private void connectWithSurroundingSites(int row, int col) {
+        int currentIndex = indexConverter.fromGridToLinear(row, col);
+        Integer eastSiteIndex = indexConverter.fromGridToLinearEastSite(row, col);
+        if (eastSiteIndex != null) {
+            UF.union(currentIndex, eastSiteIndex);
+        }
+        Integer westSiteIndex = indexConverter.fromGridToLinearWestSite(row, col);
+        if (westSiteIndex != null) {
+            UF.union(currentIndex, westSiteIndex);
+        }
+        Integer northSiteIndex = indexConverter.fromGridToLinearNorthSite(row, col);
+        if (northSiteIndex != null) {
+            UF.union(currentIndex, northSiteIndex);
+        }
+        Integer southSiteIndex = indexConverter.fromGridToLinearSouthSite(row, col);
+        if (southSiteIndex != null) {
+            UF.union(currentIndex, southSiteIndex);
+        }
     }
 
     // is the site (row, col) open?
     public boolean isOpen(int row, int col) {
         checkInput(row, col);
-        return openClosedMap[row-1][col-1];
+        return openClosedGrid[row][col];
     }
 
     // is the site (row, col) full?
     public boolean isFull(int row, int col) {
         checkInput(row, col);
-        int siteNumber = N * row-1 + (col - 1);
-        UF.find()
+        int index = indexConverter.fromGridToLinear(row, col);
+        return UF.find(index) == UF.find(northEndPoint);
     }
 
     // returns the number of open sites
@@ -46,7 +76,7 @@ public class Percolation {
 
     // does the system percolate?
     public boolean percolates() {
-
+        return UF.find(northEndPoint) == UF.find(southEndPoint);
     }
 
     private void checkInput(int row, int col) {
