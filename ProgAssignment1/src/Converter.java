@@ -6,7 +6,7 @@
  * In accordance to Percolation class, here we assume any index starts from 1, not 0
  */
 public class Converter {
-    int N, maxLength;
+    private int N, maxLength;
 
     public Converter(int n) {
         N = n;
@@ -20,7 +20,7 @@ public class Converter {
     public Integer fromGridToLinearWestSite(int row, int col) {
         int linearIndex = fromGridToLinear(row, col);
         // return null if current position is at column 1, which is the left most column
-        if ((linearIndex % N) == 1) {
+        if ((linearIndex-1) == 0 || (linearIndex % N) == 1 ) {
             return null;
         }
         return linearIndex - 1;
@@ -29,7 +29,7 @@ public class Converter {
     public Integer fromGridToLinearEastSite(int row, int col) {
         int linearIndex = fromGridToLinear(row, col);
         // return null if current position is at column N, which is the right most column
-        if (((linearIndex) % N) == 0) {
+        if ((linearIndex+1) > maxLength || ((linearIndex) % N) == 0) {
             return null;
         }
         return linearIndex + 1;

@@ -2,19 +2,21 @@ import edu.princeton.cs.algs4.StdRandom;
 import edu.princeton.cs.algs4.StdStats;
 
 public class PercolationStats {
-    private double[] thresholds;
-    private Percolation percolation;
-    private int trials;
-    private double mean, stddev;
+    private final double[] thresholds;
+    private final int trials;
+    private final double mean, stddev;
     // perform independent trials on an n-by-n grid
     public PercolationStats(int n, int trials) {
+        if (n <= 0 || trials <= 0) {
+            throw new IllegalArgumentException();
+        }
         this.trials = trials;
         thresholds = new double[trials];
         for (int i  = 0; i < trials; i++) {
-            percolation = new Percolation(n);
+            Percolation percolation = new Percolation(n);
             while (!percolation.percolates()) {
-                int targetSiteRow = StdRandom.uniform(1, n);
-                int targetSiteCol = StdRandom.uniform(1, n);
+                int targetSiteRow = StdRandom.uniform(1, n+1);
+                int targetSiteCol = StdRandom.uniform(1, n+1);
                 if (!percolation.isOpen(targetSiteRow, targetSiteCol)) {
                     percolation.open(targetSiteRow, targetSiteCol);
                 }
