@@ -52,19 +52,19 @@ public class Percolation {
     private void connectWithSurroundingSites(int row, int col) {
         int currentIndex = indexConverter.fromGridToLinear(row, col);
         Integer eastSiteIndex = indexConverter.fromGridToLinearEastSite(row, col);
-        if (eastSiteIndex != null) {
+        if (eastSiteIndex != null && isOpen(row,col+1)) {
             UF.union(currentIndex, eastSiteIndex);
         }
         Integer westSiteIndex = indexConverter.fromGridToLinearWestSite(row, col);
-        if (westSiteIndex != null) {
+        if (westSiteIndex != null && isOpen(row, col-1)) {
             UF.union(currentIndex, westSiteIndex);
         }
         Integer northSiteIndex = indexConverter.fromGridToLinearNorthSite(row, col);
-        if (northSiteIndex != null) {
+        if (northSiteIndex != null && isOpen(row-1, col)) {
             UF.union(currentIndex, northSiteIndex);
         }
         Integer southSiteIndex = indexConverter.fromGridToLinearSouthSite(row, col);
-        if (southSiteIndex != null) {
+        if (southSiteIndex != null && isOpen(row+1, col)) {
             UF.union(currentIndex, southSiteIndex);
         }
     }
@@ -89,7 +89,10 @@ public class Percolation {
 
     // does the system percolate?
     public boolean percolates() {
-        return UF.find(northEndPoint) == UF.find(southEndPoint);
+        int north = UF.find(northEndPoint);
+        int south = UF.find(southEndPoint);
+        return north == south;
+        // return UF.find(northEndPoint) == UF.find(southEndPoint);
     }
 
     private void checkInput(int row, int col) {
