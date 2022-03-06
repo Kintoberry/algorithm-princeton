@@ -13,13 +13,13 @@ public class PercolationStats {
         for (int i  = 0; i < trials; i++) {
             percolation = new Percolation(n);
             while (!percolation.percolates()) {
-                int targetSiteRow = StdRandom.uniform(n);
-                int targetSiteCol = StdRandom.uniform(n);
+                int targetSiteRow = StdRandom.uniform(1, n);
+                int targetSiteCol = StdRandom.uniform(1, n);
                 if (!percolation.isOpen(targetSiteRow, targetSiteCol)) {
                     percolation.open(targetSiteRow, targetSiteCol);
                 }
             }
-            thresholds[i] = percolation.numberOfOpenSites() / n* n;
+            thresholds[i] = ((double) percolation.numberOfOpenSites()) / ((double) (n* n));
         }
         mean = mean();
         stddev = stddev();
@@ -57,9 +57,9 @@ public class PercolationStats {
             throw new IllegalArgumentException();
         }
         PercolationStats percolationStats = new PercolationStats(n, trials);
-        System.out.printf("%20s = %f", "mean", percolationStats.mean());
-        System.out.printf("%20s = %f", "stddev", percolationStats.stddev());
-        System.out.printf("%20s = [%f, %f]", "95% confidence interval", percolationStats.confidenceLo(), percolationStats.confidenceHi());
+        System.out.printf("%20s = %f\n", "mean", percolationStats.mean());
+        System.out.printf("%20s = %f\n", "stddev", percolationStats.stddev());
+        System.out.printf("%20s = [%f, %f]\n", "95% confidence interval", percolationStats.confidenceLo(), percolationStats.confidenceHi());
 
     }
 

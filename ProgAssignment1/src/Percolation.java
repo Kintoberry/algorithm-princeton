@@ -100,7 +100,30 @@ public class Percolation {
 
     // test client (optional)
     public static void main(String[] args) {
-
+        Percolation per = new Percolation(4);
+        if (per.percolates()) {
+            System.out.println("location 1: error percolation");
+        }
+        per.open(3, 3);
+        if (!per.isOpen(3, 3)) {
+            System.out.println("location 2: error isOpen");
+        }
+        per.open(2, 2);
+        per.open(2, 3);
+        per.open(1, 2);
+        if (!per.isFull(3, 3)) {
+            System.out.println("location 3: error isFull");
+        }
+        if (!per.isFull(1, 2)) {
+            System.out.println("location 4: error isFull");
+        }
+        if (per.percolates()) {
+            System.out.println("location 5: error percolation");
+        }
+        per.open(4, 3);
+        if (!per.percolates()) {
+            System.out.println("location 6: error percolation");
+        }
     }
 
 }
